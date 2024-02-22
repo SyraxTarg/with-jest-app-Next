@@ -11,14 +11,22 @@ jobs:
       - run: echo "installing dependencies..."
       - run: echo "code analysing..."
       - run: echo "cleaning and packaging..."
-  tests:
+  unit-tests:
     # Install node dependencies and run test
     executor: node/default
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
-      - run: echo "tests unitaires"
+      - run: 
+          name: Tests unitaires
+          command: echo "tests unitaires"
+          requires:
+            -build
+          filters:
+            branches:
+              only:
+                -master
       - run: echo "tests d'intégration"
       - run: echo "tests de régression"
       - run: echo "tests performance"
