@@ -10,6 +10,7 @@ export default function Counter() {
       <button type="button" data-testid="button-add" onClick={() => setCount(count + 1)}>
         +
       </button>
+      
       <button type="button" data-testid="button-substract" onClick={() => setCount(count - 1)}>
         -
       </button>
