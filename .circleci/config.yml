@@ -4,40 +4,218 @@ version: 2.1
 orbs:
   node: circleci/node@5
 jobs:
-  build:
+  dependencies_install:
     executor: node/default
     steps:
       - checkout
-      - run: echo "installing dependencies..."
-      - run: echo "code analysing..."
-      - run: echo "cleaning and packaging..."
-  unit-tests:
-    # Install node dependencies and run test
-    executor: node/default
-    environment:
-      JEST_JUNIT_OUTPUT_DIR: ./test-results/
-    steps:
-      - checkout
-      - run: echo "tests unitaires"
-      - run: echo "tests d'intégration"
-      - run: echo "tests de régression"
-      - run: echo "tests performance"
-      - run: echo "tests sécurité"
-      - run: echo "tests compatibilité"
-      - run: echo "tests accessibilité"
-  deploy:
+      - run: echo "installing dependencies"
+  code_analysing:
     executor: node/default
     steps:
       - checkout
-      - run: echo "Deploying"
+      - run: echo "code analysing ..."
+  cleaning_packaging:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "cleaning and packaging ..."
+  #################################################
+  unit_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "unit tests"
+  integration_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "integration tests"
+  regression_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "regression tests"
+  performance_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "performance tests"
+  security_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "security tests"
+  access_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "access tests"
+  #################################################################
+  preparing_deploying_environment:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "preparation of deploying environment"
+  application_deployement:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "application deployement"
+  verification_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "verification tests"
+  functionning_validation_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "functionning validation tests"
+  charge_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "charge tests"
+  deploy_dev:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to development environment"
   deploy_prod:
     executor: node/default
     steps:
       - checkout
       - run: echo "Deploying to production environment"
+  monitoring:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "monitoring"
+
+###################################################################
 workflows:
   build-test-deploy:
     jobs:
+      - dependencies_install
+      - code_analysing
+      - cleaning_packaging
+      ##############
+      - unit_tests
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+
+      - integration_tests
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+
+      - regression_tests
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+
+      - performance_tests
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+
+      - security_tests
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+
+      - access_tests
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+      ###############
+      - preparing_deploying_environment
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - application_deployement
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - verification_tests
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - functionning_validation_tests
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - charge_tests
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - deploy_dev
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - deploy_prod
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+      - monitoring
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+
+
+
+
+
+
+
+
+
       - build
       - unit-tests:
           requires:
@@ -59,3 +237,4 @@ workflows:
               only:
                 - master
                 
+
