@@ -31,4 +31,4 @@ workflows:
       - build
       - test-node:
         requires:
-          build
+          - build
