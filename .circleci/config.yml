@@ -8,7 +8,7 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - run: echo "Building things..."
+      - run: git checkout -b develop
   unit-tests:
     # Install node dependencies and run test
     executor: node/default
