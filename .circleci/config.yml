@@ -50,6 +50,7 @@ workflows:
               ignore:
                 - /feature\//*/
                 - /hotfix\//*/
+                - master
       - deploy_prod:
           requires:
             - tests
