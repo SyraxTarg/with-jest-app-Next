@@ -25,10 +25,34 @@ jobs:
           command: npm run test:ci
       - store_test_results:
           path: ./test-results/
+  deploy_dev:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to development environment"
+  deploy_prod:
+    executor: node/default
+    steps:
+      - checkout
+      - run: recho "Deploying to production environment"
 workflows:
-  build-and-test:
+  build-test-deploy:
     jobs:
       - build
       - unit-tests:
           requires:
             - build
+      - deploy_dev:
+          requires:
+            - unit-tests
+          filters:
+            branches:
+              only:
+                - develop
+      - deploy_prod:
+          requires:
+            - unit-tests
+          filters:
+            branches:
+              only:
+                - master
