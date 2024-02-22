@@ -29,6 +29,6 @@ workflows:
   build-and-test:
     jobs:
       - build
-      - test-node:
+      - unit-tests:
         requires:
           - build
