@@ -18,13 +18,13 @@ jobs:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
-      - run: "tests unitaires"
-      - run: "tests d'intégration"
-      - run: "tests de régression"
-      - run: "tests performance"
-      - run: "tests sécurité"
-      - run: "tests compatibilité"
-      - run: "tests accessibilité"
+      - run: echo "tests unitaires"
+      - run: echo "tests d'intégration"
+      - run: echo "tests de régression"
+      - run: echo "tests performance"
+      - run: echo "tests sécurité"
+      - run: echo "tests compatibilité"
+      - run: echo "tests accessibilité"
   deploy:
     executor: node/default
     steps:
