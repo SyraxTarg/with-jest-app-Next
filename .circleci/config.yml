@@ -100,43 +100,43 @@ workflows:
       - code_analysing
       - cleaning_packaging
       ##############
-      - unit_tests
+      - unit_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
 
-      - integration_tests
+      - integration_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
 
-      - regression_tests
+      - regression_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
 
-      - performance_tests
+      - performance_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
 
-      - security_tests
+      - security_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
 
-      - access_tests
+      - access_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
       ###############
-      - preparing_deploying_environment
+      - preparing_deploying_environment:
           requires:
             - unit_tests
             - integration_tests
@@ -145,7 +145,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - application_deployement
+      - application_deployement:
           requires:
             - unit_tests
             - integration_tests
@@ -154,7 +154,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - verification_tests
+      - verification_tests:
           requires:
             - unit_tests
             - integration_tests
@@ -163,7 +163,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - functionning_validation_tests
+      - functionning_validation_tests:
           requires:
             - unit_tests
             - integration_tests
@@ -172,7 +172,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - charge_tests
+      - charge_tests:
           requires:
             - unit_tests
             - integration_tests
@@ -181,7 +181,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - deploy_dev
+      - deploy_dev:
           requires:
             - unit_tests
             - integration_tests
@@ -190,7 +190,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - deploy_prod
+      - deploy_prod:
           requires:
             - unit_tests
             - integration_tests
@@ -199,7 +199,7 @@ workflows:
             - security_tests
             - access_tests
 
-      - monitoring
+      - monitoring:
           requires:
             - unit_tests
             - integration_tests
