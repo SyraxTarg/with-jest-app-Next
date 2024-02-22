@@ -39,7 +39,7 @@ workflows:
   build-test-deploy:
     jobs:
       - build
-      - tests:
+      - unit-tests:
           requires:
             - build
       - deploy:
