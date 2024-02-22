@@ -6,7 +6,7 @@ import Counter from "./counter";
 
 it("Should add One to counter when clicking Add button", () => {
   render(<Counter />);
-  expect(screen.getByRole("heading")).toHaveTextContent("0");
+  expect(screen.getByRole("heading")).toHaveTextContent("p");
   //fireEvent permet de simuler une action utilisateur, ici un click
   fireEvent.click(screen.getByTestId("button-add"));
   expect(screen.getByRole("heading")).toHaveTextContent("1");
