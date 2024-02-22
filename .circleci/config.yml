@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Building things..."
-  unit-tests:
+  test-node:
     # Install node dependencies and run test
     executor: node/default
     environment:
@@ -29,6 +29,6 @@ workflows:
   build-and-test:
     jobs:
       - build
-      - unit-tests:
+      - test-node:
         requires:
           - build
