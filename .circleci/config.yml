@@ -86,6 +86,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Deploying to production environment"
+      ###########NE PAS OUBLIER DE FAIRE DEPLOY INTEGRATION
   monitoring:
     executor: node/default
     steps:
