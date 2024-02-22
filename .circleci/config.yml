@@ -108,8 +108,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - integration_tests:
           requires:
@@ -119,8 +119,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - regression_tests:
           requires:
@@ -130,8 +130,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - performance_tests:
           requires:
@@ -141,8 +141,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - security_tests:
           requires:
@@ -171,8 +171,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - application_deployement:
           requires:
@@ -185,8 +185,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - verification_tests:
           requires:
@@ -199,8 +199,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - functionning_validation_tests:
           requires:
@@ -213,8 +213,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - charge_tests:
           requires:
@@ -227,8 +227,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
       - deploy_dev:
           requires:
@@ -267,8 +267,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\//*/
-                - /hotfix\//*/
+                - /feature\/\/*/
+                - /hotfix\/\/*/
 
 
 
