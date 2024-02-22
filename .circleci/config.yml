@@ -216,25 +216,25 @@ workflows:
 
 
 
-      - build
-      - unit-tests:
-          requires:
-            - build
-      - deploy:
-          requires:
-            - unit-tests
-          filters:
-            branches:
-              ignore:
-                - /feature\//*/
-                - /hotfix\//*/
-                - master
-      - deploy_prod:
-          requires:
-            - unit-tests
-          filters:
-            branches:
-              only:
-                - master
+      # - build
+      # - unit-tests:
+      #     requires:
+      #       - build
+      # - deploy:
+      #     requires:
+      #       - unit-tests
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - /feature\//*/
+      #           - /hotfix\//*/
+      #           - master
+      # - deploy_prod:
+      #     requires:
+      #       - unit-tests
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
                 
 
