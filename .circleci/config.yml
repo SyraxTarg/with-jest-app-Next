@@ -18,15 +18,7 @@ jobs:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
-      - run: 
-          name: Tests unitaires
-          command: echo "tests unitaires"
-          requires:
-            -build
-          filters:
-            branches:
-              only:
-                -master
+      - run: echo "tests unitaires"
       - run: echo "tests d'intégration"
       - run: echo "tests de régression"
       - run: echo "tests performance"
