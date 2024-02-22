@@ -53,7 +53,7 @@ workflows:
                 - master
       - deploy_prod:
           requires:
-            - tests
+            - unit-tests
           filters:
             branches:
               only:
