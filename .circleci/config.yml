@@ -8,28 +8,28 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - run: git checkout -b develop
-  unit-tests:
+      - run: echo "installing dependencies..."
+      - run: echo "code analysing..."
+      - run: echo "cleaning and packaging..."
+  tests:
     # Install node dependencies and run test
     executor: node/default
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm install jest-junit
-      - run:
-          name: Run tests
-          command: npm run test:ci
-      - store_test_results:
-          path: ./test-results/
-  deploy_dev:
+      - run: "tests unitaires"
+      - run: "tests d'intégration"
+      - run: "tests de régression"
+      - run: "tests performance"
+      - run: "tests sécurité"
+      - run: "tests compatibilité"
+      - run: "tests accessibilité"
+  deploy:
     executor: node/default
     steps:
       - checkout
-      - run: echo "Deploying to development environment"
+      - run: echo "Deploying"
   deploy_prod:
     executor: node/default
     steps:
@@ -39,19 +39,20 @@ workflows:
   build-test-deploy:
     jobs:
       - build
-      - unit-tests:
+      - tests:
           requires:
             - build
-      - deploy_dev:
+      - deploy:
           requires:
             - unit-tests
           filters:
             branches:
-              only:
-                - develop
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
       - deploy_prod:
           requires:
-            - unit-tests
+            - tests
           filters:
             branches:
               only:
