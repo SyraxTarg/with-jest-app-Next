@@ -105,24 +105,44 @@ workflows:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - integration_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - regression_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - performance_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - security_tests:
           requires:
@@ -135,6 +155,10 @@ workflows:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
+          filters:
+            branches:
+              only:
+                -master
       ###############
       - preparing_deploying_environment:
           requires:
@@ -144,6 +168,11 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - application_deployement:
           requires:
@@ -153,6 +182,11 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - verification_tests:
           requires:
@@ -162,6 +196,11 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - functionning_validation_tests:
           requires:
@@ -171,6 +210,11 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - charge_tests:
           requires:
@@ -180,6 +224,11 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
       - deploy_dev:
           requires:
@@ -189,6 +238,10 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              only:
+                - develop
 
       - deploy_prod:
           requires:
@@ -198,6 +251,10 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              only:
+                - master
 
       - monitoring:
           requires:
@@ -207,6 +264,11 @@ workflows:
             - performance_tests
             - security_tests
             - access_tests
+          filters:
+            branches:
+              ignore:
+                - /feature\//*/
+                - /hotfix\//*/
 
 
 
