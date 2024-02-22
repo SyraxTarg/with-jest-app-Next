@@ -34,7 +34,7 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - run: recho "Deploying to production environment"
+      - run: echo "Deploying to production environment"
 workflows:
   build-test-deploy:
     jobs:
