@@ -106,12 +106,6 @@ workflows:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
-          filters:
-            branches:
-              ignore:
-                - /^feature\/.*$/
-                - /^hotfix\/.*$/
-
       - integration_tests:
           requires:
             - dependencies_install
