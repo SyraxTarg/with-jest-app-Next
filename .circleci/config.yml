@@ -280,6 +280,7 @@ workflows:
 
 
 ##création du git flow:
+
 # git pull -> au cas ou
 # git status -> voir si c clean
 # git remote -v -> voir si jss bien connecte
