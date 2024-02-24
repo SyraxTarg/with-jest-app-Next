@@ -280,21 +280,30 @@ workflows:
 
 
 ##création du git flow:
-git pull -> au cas ou
-git status -> voir si c clean
-git remote -v -> voir si jss bien connecte
-git checkout -b develop -> création de la branche develop
-je code
-git add . -> je stage mes changes
-git commit -m "mon premier commit sur develop" -> je commit mes changes 
-git push origin develop -> je push mes modifs sur develop distant
-git status -> voir si c clean
-git checkout -b feature/popo -> je cree ma branche feature/popo
-je code
-git add . -> je stage mes changes
-git commit -m "mon premier commit sur feature" -> je commit mes changes 
-git push origin feature/popo -> je push mes modifs sur feature/popo distant
-
+# git pull -> au cas ou
+# git status -> voir si c clean
+# git remote -v -> voir si jss bien connecte
+# git checkout -b develop -> création de la branche develop
+# je code
+# git add . -> je stage mes changes
+# git commit -m "mon premier commit sur develop" -> je commit mes changes 
+# git push origin develop -> je push mes modifs sur develop distant
+# git status -> voir si c clean
+# git checkout -b feature/popo -> je cree ma branche feature/popo
+# je code
+# git add . -> je stage mes changes
+# git commit -m "mon premier commit sur feature" -> je commit mes changes 
+# git push origin feature/popo -> je push mes modifs sur feature/popo distant
+# git checkout develop -> je retourne sur develop
+# git merge feature/popo -> je merge ma feature a develop
+# git checkout -b release/1.0.0 -> je crée ma branche de release
+# je code
+# git add . -> je stage mes changes
+# git commit -m "mon premier commit sur release" -> je commit mes changes 
+# git push origin release/1.0.0 -> je push mes modifs sur release/1.0.0 distant
+# git status -> pour voir si tout est clean
+# git checkout master -> pour retourner sur master
+# git merge release/1.0.0 -> pour merger ma release a master
 
 
 
