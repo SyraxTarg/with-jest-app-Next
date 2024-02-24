@@ -306,7 +306,3 @@ workflows:
 # git checkout master -> pour retourner sur master
 # git merge release/1.0.0 -> pour merger ma release a master
 
-
-
-
-
