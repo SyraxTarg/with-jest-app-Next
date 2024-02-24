@@ -109,7 +109,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - integration_tests:
@@ -120,7 +120,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - regression_tests:
@@ -172,7 +172,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - application_deployement:
@@ -186,7 +186,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - verification_tests:
@@ -200,7 +200,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - functionning_validation_tests:
@@ -214,7 +214,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - charge_tests:
@@ -228,7 +228,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
       - deploy_dev:
@@ -268,7 +268,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
+                - ^feature\/.*
                 - /hotfix\/\/*/
 
 
