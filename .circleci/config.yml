@@ -87,7 +87,11 @@ jobs:
     steps:
       - checkout
       - run: echo "Deploying to production environment"
-      ###########NE PAS OUBLIER DE FAIRE DEPLOY INTEGRATION
+  deploy_release:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to release environment"
   monitoring:
     executor: node/default
     steps:
@@ -251,7 +255,18 @@ workflows:
             branches:
               only:
                 - master
-
+      - deploy_release:
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+          filters:
+            branches:
+              only:
+                - /^release\/.*$/
       - monitoring:
           requires:
             - unit_tests
