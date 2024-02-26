@@ -281,12 +281,7 @@ workflows:
                 - /^feature\/.*$/
                 - /^hotfix\/.*$/
 
-#lvdfkf
-
-  
-#ppoopefpokfpzkf
-#ekfpkoegor
-#eflelfefelf;el;fel;f
+####RESTE A GERER HOTFIX ET LES TESTS APPROPRIES POUR CHAQUE BRANCHE
 
 
 ##création du git flow:
