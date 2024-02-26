@@ -131,8 +131,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
-                - /hotfix\/\/*/
+                - /^feature\/.*$/
+                - /^hotfix\/.*$/
 
       - performance_tests:
           requires:
@@ -142,8 +142,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
-                - /hotfix\/\/*/
+                - /^feature\/.*$/
+                - /^hotfix\/.*$/
 
       - security_tests:
           requires:
