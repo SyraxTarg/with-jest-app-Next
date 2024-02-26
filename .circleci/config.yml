@@ -126,8 +126,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
-                - /hotfix\/\/*/
+                - /^feature\/.*$/
+                - /^hotfix\/.*$/
 
       - performance_tests:
           requires:
@@ -137,8 +137,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /feature\/\/*/
-                - /hotfix\/\/*/
+                - /^feature\/.*$/
+                - /^hotfix\/.*$/
 
       - security_tests:
           requires:
@@ -275,7 +275,6 @@ workflows:
 
 
 ##création du git flow:
-
 # git pull -> au cas ou
 # git status -> voir si c clean
 # git remote -v -> voir si jss bien connecte
