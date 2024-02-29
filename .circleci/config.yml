@@ -285,6 +285,7 @@ workflows:
 
 
 ##création du git flow:
+# git checkout master -> pour petre sure d'etre sur master
 # git pull -> au cas ou
 # git status -> voir si c clean
 # git remote -v -> voir si jss bien connecte
@@ -315,5 +316,10 @@ workflows:
 # git add --all -> pour stage mes changes
 # git commit -m "commit hotfix1" -> je commit mes changes
 # git push origin hotfix/probleme -> je push mes changements sur hotfix/probleme distant
+# git checkout master -> je reviens sur ma branche principale
+# git merge hotfix/probleme -> je merge ma branche hotfix à mon master
+# git checkout develop -> je retourne sur ma branche develop car hotfix doit etre relié à la fois a master et develop
+# git merge hotfix/probleme -> je merge ma branche hotfix à mon develop
+# git branch -D hotfix/probleme -> enfin je supprime ma branche hotfix/probleme car je n'en aurai plus besoin
 
 
