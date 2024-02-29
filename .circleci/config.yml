@@ -309,4 +309,6 @@ workflows:
 # git status -> pour voir si tout est clean
 # git checkout master -> pour retourner sur master
 # git merge release/1.0.0 -> pour merger ma release a master
+# git checkout -b hotfix/probleme -> pour créer ma branche hotfix
+
 
