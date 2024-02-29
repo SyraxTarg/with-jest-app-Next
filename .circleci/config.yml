@@ -51,7 +51,7 @@ jobs:
       - checkout
       - run: echo "access tests"
   #################################################################
-
+  
   preparing_deploying_environment:
     executor: node/default
     steps:
@@ -87,7 +87,11 @@ jobs:
     steps:
       - checkout
       - run: echo "Deploying to production environment"
-      ###########NE PAS OUBLIER DE FAIRE DEPLOY INTEGRATION
+  deploy_release:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to release environment"
   monitoring:
     executor: node/default
     steps:
@@ -107,12 +111,6 @@ workflows:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
-          filters:
-            branches:
-              ignore:
-                - /^feature\/.*$/
-                - /^hotfix\/.*$/
-
       - integration_tests:
           requires:
             - dependencies_install
@@ -257,7 +255,18 @@ workflows:
             branches:
               only:
                 - master
-
+      - deploy_release:
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - access_tests
+          filters:
+            branches:
+              only:
+                - /^release\/.*$/
       - monitoring:
           requires:
             - unit_tests
@@ -272,12 +281,7 @@ workflows:
                 - /^feature\/.*$/
                 - /^hotfix\/.*$/
 
-#lvdfkf
-
-  
-#ppoopefpokfpzkf
-#ekfpkoegor
-#eflelfefelf;el;fel;f
+####RESTE A GERER HOTFIX ET LES TESTS APPROPRIES POUR CHAQUE BRANCHE
 
 
 ##création du git flow:
@@ -295,7 +299,14 @@ workflows:
 # git add . -> je stage mes changes
 # git commit -m "mon premier commit sur feature" -> je commit mes changes 
 # git push origin feature/popo -> je push mes modifs sur feature/popo distant
-
-
-
+# git checkout develop -> je retourne sur develop
+# git merge feature/popo -> je merge ma feature a develop
+# git checkout -b release/1.0.0 -> je crée ma branche de release
+# je code
+# git add . -> je stage mes changes
+# git commit -m "mon premier commit sur release" -> je commit mes changes 
+# git push origin release/1.0.0 -> je push mes modifs sur release/1.0.0 distant
+# git status -> pour voir si tout est clean
+# git checkout master -> pour retourner sur master
+# git merge release/1.0.0 -> pour merger ma release a master
 
