@@ -4,105 +4,124 @@ version: 2.1
 orbs:
   node: circleci/node@5
 jobs:
+
+################      BUILD     ######################
   dependencies_install:
     executor: node/default
     steps:
       - checkout
-      - run: echo "installing dependencies"
+      - run: echo "on installe les dépendances de l'application"*
+
   code_analysing:
     executor: node/default
     steps:
       - checkout
-      - run: echo "code analysing ..."
+      - run: echo "on analyse le code pour voir s'il n'y a pas d'erreurs de syntaxe par exemple"
+
   cleaning_packaging:
     executor: node/default
     steps:
       - checkout
-      - run: echo "cleaning and packaging ..."
-  #################################################
+      - run: echo "on nettoie tous les fichiers inutiles ou qui ont été générés avec le build précédent puis on rassemble toutes les dépendances nécéssaires au building de l'application"
+
+  ###################     TESTS     ##############################
   unit_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "unit tests"
+      - run: echo "on effectue les tests unitaires"
+
   integration_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "integration tests"
+      - run: echo "on effectue les tests d'intégration"
+
   regression_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "regression tests"
+      - run: echo "on effectue les tests de régression"
+
   performance_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "performance tests"
+      - run: echo "on effectue les tests de performance"
+
   security_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "security tests"
+      - run: echo "on effectue les tests de sécurité"
+
   access_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "access tests"
+      - run: echo "on effectue les tests d'accessibilité"
+
   compatibility_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "compatibility tests"
+      - run: echo "on effectue les tests de compatibilité"
 
-  #################################################################
+  ########################      DEPLOIEMENT     ##############################
   
   preparing_deploying_environment:
     executor: node/default
     steps:
       - checkout
-      - run: echo "preparation of deploying environment"
+      - run: echo "on prépare l'environnement de déploiement"
+
   application_deployement:
     executor: node/default
     steps:
       - checkout
-      - run: echo "application deployement"
+      - run: echo "on prépare l'application pour le déploiement"
+
   verification_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "verification tests"
+      - run: echo "on fait tes dests de vérification pour se préparer au déploiement"
+
   functionning_validation_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "functionning validation tests"
+      - run: echo "on valide si les fonctionnalités répondent bien aux attendus"
+
   charge_tests:
     executor: node/default
     steps:
       - checkout
-      - run: echo "charge tests"
+      - run: echo "on vérifie le fonctionnement de l'application sous une certaine charge de tests"
+
   deploy_dev:
     executor: node/default
     steps:
       - checkout
-      - run: echo "Deploying to development environment"
+      - run: echo "on déploie l'application dans l'environnement de développement"
+
   deploy_prod:
     executor: node/default
     steps:
       - checkout
-      - run: echo "Deploying to production environment"
+      - run: echo "on déploie l'application dans l'environnement de production"
+
   deploy_release:
     executor: node/default
     steps:
       - checkout
-      - run: echo "Deploying to release environment"
+      - run: echo "on déploie l'application dans l'environnement d'intégration"
+
   monitoring:
     executor: node/default
     steps:
       - checkout
-      - run: echo "monitoring"
+      - run: echo "on lance la surveillance continue"
 
 ###################################################################
 workflows:
@@ -326,40 +345,54 @@ workflows:
 
 
 
-##création du git flow:
-# git checkout master -> pour petre sure d'etre sur master
-# git pull -> au cas ou
-# git status -> voir si c clean
-# git remote -v -> voir si jss bien connecte
-# git checkout -b develop -> création de la branche develop
+## CREATION DU GIT-FLOW:
+
+# git remote -v -> avec cette commande je cherche à voir si je suis bien connectée à mon répertoire distant
+# git checkout master -> pour etre sure d'etre sur master
+# git pull -> au cas ou il y aurait déja des choses sur ma branche distante
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
+# git checkout -b develop -> je crée ma branche de développement à partir de ma branche master puis je me déplace dessus
 # je code
-# git add . -> je stage mes changes
-# git commit -m "mon premier commit sur develop" -> je commit mes changes 
-# git push origin develop -> je push mes modifs sur develop distant
-# git status -> voir si c clean
-# git checkout -b feature/popo -> je cree ma branche feature/popo
+# git add --all -> je stage mes modifications
+# git commit -m "mon premier commit sur develop" -> je commit mes modifications en ajoutant un message
+# git push origin develop -> je push mes modifications sur develop distant
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
+# git checkout -b feature/xxxx -> je crée ma branche de fonctionnalité à partir de ma branche develop puis je me déplace dessus
 # je code
-# git add . -> je stage mes changes
-# git commit -m "mon premier commit sur feature" -> je commit mes changes 
-# git push origin feature/popo -> je push mes modifs sur feature/popo distant
-# git checkout develop -> je retourne sur develop
-# git merge feature/popo -> je merge ma feature a develop
-# git checkout -b release/1.0.0 -> je crée ma branche de release
+# git add --all -> je stage mes modifications
+# git commit -m "mon premier commit sur feature" -> je commit mes modifications en ajoutant un message
+# git push origin feature/xxxx -> je push mes modifications sur feature/xxxx distant
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
+# git checkout develop -> je retourne sur ma branche develop
+# git merge feature/xxxx -> je merge ma branche feature/xxxx a ma branche develop
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
+# git checkout -b release/1.0.0 -> je crée ma branche de release à partir de develop puis je me déplace dessus
 # je code
-# git add . -> je stage mes changes
-# git commit -m "mon premier commit sur release" -> je commit mes changes 
-# git push origin release/1.0.0 -> je push mes modifs sur release/1.0.0 distant
-# git status -> pour voir si tout est clean
-# git checkout master -> pour retourner sur master
-# git merge release/1.0.0 -> pour merger ma release a master
-# git checkout -b hotfix/probleme -> pour créer ma branche hotfix
+# git add --all -> je stage mes modifications
+# git commit -m "mon premier commit sur release" -> je commit mes modifications en ajoutant un message
+# git push origin release/1.0.0 -> je push mes modifications sur release/1.0.0 distant
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
+# git checkout master -> je retourne sur ma branche master
+# git merge release/1.0.0 -> je marge ma branche release/1.0.0 à ma branche master
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
+# git checkout -b hotfix/probleme -> je crée ma branche hotfix à partir de master puis je me déplace dessus
 # je code
-# git status -> pour voir si j'ai bien des trucs a commit
-# git add --all -> pour stage mes changes
-# git commit -m "commit hotfix1" -> je commit mes changes
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+# git add --all -> je stage mes modifications
+# git commit -m "commit hotfix1" -> je commit mes modifications
 # git push origin hotfix/probleme -> je push mes changements sur hotfix/probleme distant
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
 # git checkout master -> je reviens sur ma branche principale
 # git merge hotfix/probleme -> je merge ma branche hotfix à mon master
+# git status -> si mon statut est clean alors je peux continuer, sinon je dois commit mes modification ou cela pourrait entrainer des problèmes. 
+
 # git checkout develop -> je retourne sur ma branche develop car hotfix doit etre relié à la fois a master et develop
 # git merge hotfix/probleme -> je merge ma branche hotfix à mon develop
 # git branch -D hotfix/probleme -> enfin je supprime ma branche hotfix/probleme car je n'en aurai plus besoin
