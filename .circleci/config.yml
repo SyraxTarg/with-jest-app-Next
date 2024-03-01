@@ -327,7 +327,7 @@ workflows:
 
 
 ##création du git flow:
-# git checkout master -> pour petre sure d'etre sur master
+# git checkout master -> pour etre sure d'etre sur master
 # git pull -> au cas ou
 # git status -> voir si c clean
 # git remote -v -> voir si jss bien connecte
