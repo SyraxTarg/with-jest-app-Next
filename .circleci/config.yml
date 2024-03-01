@@ -50,6 +50,12 @@ jobs:
     steps:
       - checkout
       - run: echo "access tests"
+  compatibility_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "compatibility tests"
+
   #################################################################
   
   preparing_deploying_environment:
@@ -102,15 +108,31 @@ jobs:
 workflows:
   build-test-deploy:
     jobs:
+      ######      BUILDING DE L'APPLICATION     ######
+
+      # peu importe l'environnement ou l'on évolue, notre application a besoin d'être build pour effectuer les tests et le déploiement
+      
       - dependencies_install
+
       - code_analysing
+
       - cleaning_packaging
-      ##############
+
+
+      ######      TESTS SUR L'APPLICATION     ########
+
+      # les tests-unitaires servent à tester le code "par petits bouts". Ainsi, on ne va faire les test unitaires que sur les environnements offrant de nouvelles fonctionnalités comme les branches de developpement, d'intégration de fonctionnalité et de correctif. Si, unitairement, toutes les fonctionnalités fonctionnent alors on va pouvoir tester si elles s'intègrent bien à notre code principal. On peut se contenter d'ignorer la branche master.
       - unit_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
+          filters:
+            branches:
+              ignore:
+                - master
+
+      # les test d'intégration sont la pour vérifier que toutes nos petites fonctionnalités unitairement testées s'intègret bien dans le code principal contenu dans la branche master. Comme le nom l'indique on va tester si tout s'intègre bien, on va faire ces tests dans la branche d'intégration mais aussi dans la branche principale. Il est inutile de require les test unitaires    
       - integration_tests:
           requires:
             - dependencies_install
@@ -118,21 +140,19 @@ workflows:
             - cleaning_packaging
           filters:
             branches:
-              ignore:
-                - /^feature\/.*$/
-                - /^hotfix\/.*$/
+              only:
+                - /^release\/.*$/
+                - master
 
+
+      # les tests de régression sont la pour vérifier que les nouvelles fonctionnalités n'apportent pas de nouveaux bugs ou de régressions de code. Pour être sur de n'avoir aucune régression, on va tester dans toutes les branches. Il est important de ne pas régresser au niveau du code cela pourait entrainer d'autres problèmes et vulnérabilités
       - regression_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
-          filters:
-            branches:
-              ignore:
-                - /^feature\/.*$/
-                - /^hotfix\/.*$/
 
+      # les tests de performance servent à évaluer la performance d'une application en conditions réelles donc on va pouvoir tester sur les branches qui imitent ou sont en conditions réelles comme master, release et develop
       - performance_tests:
           requires:
             - dependencies_install
@@ -140,16 +160,31 @@ workflows:
             - cleaning_packaging
           filters:
             branches:
-              ignore:
-                - /^feature\/.*$/
-                - /^hotfix\/.*$/
+              only:
+                - master
+                - develop
+                - /^release\/.*$/
 
+      # les tests de sécurité sont effectués sur toutes les branches pour détecter les potentielles vulnérabilités
       - security_tests:
           requires:
             - dependencies_install
             - code_analysing
             - cleaning_packaging
 
+      # avec les tests de compatibilité on va tester si par exemple mon application est compatible avec tel type d'écran ou tel type de système d'exploitation. On va faire ces tests sur develop et master car develop simule les conditions d'utilisateurs réels et car master est la branche de production pour les utilisateurs finaux
+      - compatibility_tests:
+          requires:
+            - dependencies_install
+            - code_analysing
+            - cleaning_packaging
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+
+      # les tests d'accessibilité servent à vérifier si notre application est bien accessible pour les personnes en situation de handicap. On va généralement tester sur master et develop pour les mêmes raisons que les test de compatibilité
       - access_tests:
           requires:
             - dependencies_install
@@ -158,8 +193,12 @@ workflows:
           filters:
             branches:
               only:
-                -master
-      ###############
+                - master
+                - develop
+
+
+
+      ######      DEPLOIEMENT DE L'APPLICATION      #########
       - preparing_deploying_environment:
           requires:
             - unit_tests
@@ -229,21 +268,10 @@ workflows:
               ignore:
                 - /^feature\/.*$/
                 - /^hotfix\/.*$/
-
-      - deploy_dev:
-          requires:
-            - unit_tests
-            - integration_tests
-            - regression_tests
-            - performance_tests
-            - security_tests
-            - access_tests
-          filters:
-            branches:
-              only:
-                - develop
-
-      - deploy_prod:
+      # toutes le opérations de déploiement servent à vérifier si l'application peut être déployée donc toutes les branches sont testées sauf les branches de fonctionnalité et de correctifs
+      
+      # la surveillance en continu permet de savoir le taux d'erreurs engendrées par les utilisateurs, les temps de résonse, etc... Cela permet de surveiller d'activité générale des utilisateurs finaux et de déceler plus rapidement d'éventuels problèmes. Etant donné que l'on surveille l'activité des utilisateurs finaux on va surveiller seulement en environnement de production (master)
+      - monitoring:
           requires:
             - unit_tests
             - integration_tests
@@ -255,36 +283,51 @@ workflows:
             branches:
               only:
                 - master
+
+      # le déploiement en développement va s'effectuer sur l'environnement de développement. Bien sur on va s'assurer avant que l'application peut être déployée grace aux tests de déploiement mis require
+      - deploy_dev:
+          requires:
+            - preparing_deploying_environment
+            - application_deployement
+            - verification_tests
+            - functionning_validation_tests
+            - charge_tests
+          filters:
+            branches:
+              only:
+                - develop
+
+      # le déploiement en production va s'effectuer sur l'environnement de production (master). Bien sur on va s'assurer avant que l'application peut être déployée grace aux tests de déploiement mis require. Déployer en production va donner accès à l'application aux utilisateurs finaux.
+      - deploy_prod:
+          requires:
+            - preparing_deploying_environment
+            - application_deployement
+            - verification_tests
+            - functionning_validation_tests
+            - charge_tests
+          filters:
+            branches:
+              only:
+                - master
+
+      # le déploiement en intégration va s'effectuer sur l'environnement d'intégration (release). Bien sur on va s'assurer avant que l'application peut être déployée grace aux tests de déploiement mis require
       - deploy_release:
           requires:
-            - unit_tests
-            - integration_tests
-            - regression_tests
-            - performance_tests
-            - security_tests
-            - access_tests
+            - preparing_deploying_environment
+            - application_deployement
+            - verification_tests
+            - functionning_validation_tests
+            - charge_tests
           filters:
             branches:
               only:
                 - /^release\/.*$/
-      - monitoring:
-          requires:
-            - unit_tests
-            - integration_tests
-            - regression_tests
-            - performance_tests
-            - security_tests
-            - access_tests
-          filters:
-            branches:
-              ignore:
-                - /^feature\/.*$/
-                - /^hotfix\/.*$/
+      
 
-####RESTE A GERER HOTFIX ET LES TESTS APPROPRIES POUR CHAQUE BRANCHE
 
 
 ##création du git flow:
+# git checkout master -> pour petre sure d'etre sur master
 # git pull -> au cas ou
 # git status -> voir si c clean
 # git remote -v -> voir si jss bien connecte
@@ -309,4 +352,16 @@ workflows:
 # git status -> pour voir si tout est clean
 # git checkout master -> pour retourner sur master
 # git merge release/1.0.0 -> pour merger ma release a master
+# git checkout -b hotfix/probleme -> pour créer ma branche hotfix
+# je code
+# git status -> pour voir si j'ai bien des trucs a commit
+# git add --all -> pour stage mes changes
+# git commit -m "commit hotfix1" -> je commit mes changes
+# git push origin hotfix/probleme -> je push mes changements sur hotfix/probleme distant
+# git checkout master -> je reviens sur ma branche principale
+# git merge hotfix/probleme -> je merge ma branche hotfix à mon master
+# git checkout develop -> je retourne sur ma branche develop car hotfix doit etre relié à la fois a master et develop
+# git merge hotfix/probleme -> je merge ma branche hotfix à mon develop
+# git branch -D hotfix/probleme -> enfin je supprime ma branche hotfix/probleme car je n'en aurai plus besoin
+
 
